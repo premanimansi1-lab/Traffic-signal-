@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Signal</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #2f2f2f;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .signal-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .box1 {
+            background: #111;
+            border: 4px solid #222;
+            border-radius: 15px;
+            padding: 15px 0;
+            width: 120px;
+            box-shadow: 0 0 15px #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Lights */
+        #red,
+        #yellow,
+        #green {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            margin: 10px auto;
+            background-color: #333;
+            border: 2px solid #555;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Pole */
+        .pole {
+            width: 20px;
+            height: 200px;
+            background: #444;
+            margin-top: -5px;
+            box-shadow: 0 0 8px #000;
+        }
+
+        /* Timer */
+        #time {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 20px;
+            background: #000;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px #000;
+        }
+
+        /* Button */
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #ffcc00;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ffaa00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="signal-container">
+        <div class="box1">
+            <div id="red"></div>
+            <div id="yellow"></div>
+            <div id="green"></div>
+        </div>
+        <div class="pole"></div>
+    </div>
+    <div id="time">00</div>
+    <button onclick="start()">Start</button>
+
+    <script>
+        let s = 0;
+        let timer;
+        let running = false;
+
+        function updateDisplay() {
+            document.getElementById("time").textContent = s;
+        }
+
+        function resetLights() {
+            document.getElementById("red").style.backgroundColor = "#333";
+            document.getElementById("yellow").style.backgroundColor = "#333";
+            document.getElementById("green").style.backgroundColor = "#333";
+        }
+
+        function tick() {
+            s++;
+
+            if (s <= 30) {
+                resetLights();
+                document.getElementById("red").style.backgroundColor = "red";
+            } else if (s <= 40) {
+                resetLights();
+                document.getElementById("yellow").style.backgroundColor = "yellow";
+            } else if (s <= 60) {
+                resetLights();
+                document.getElementById("green").style.backgroundColor = "green";
+            } else {
+                s = 0; // restart cycle
+            }
+
+            updateDisplay();
+        }
+        function start() {
+            if (!running) {
+                s = 0;
+                resetLights();
+                timer = setInterval(tick, 1000); // 1 second interval
+                running = true;
+            }
+        }
+    </script>
+</body>
+</html>
